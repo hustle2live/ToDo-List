@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Unit 29. To Do List</title>
+  </head>
+  <body>
+    <div class="main-block">
+      <h1>Make your own To Do list:</h1>
+      <section class="block-1">
+        <input placeholder="write a task.." type="text" class="input-1" />
+        <button class="button-primary material-icons-outlined">add</button>
+      </section>
+      <section class="block-2">
+        <div class="alertMessage"></div>
+        <ol type="1" class="tasklist"></ol>
+        <table class="stats">
+          <tbody>
+            <tr>
+              <td>Tasks total:</td>
+              <td class="stats__total">0</td>
+              <td>Completed:</td>
+              <td class="stats__completed">0</td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="button-secondary">Clear all</button>
+      </section>
+    </div>
+    <script src="unit_29.js"></script>
+  </body>
+</html>
