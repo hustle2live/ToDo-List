@@ -71,7 +71,7 @@ function fillTheList() {
     const itemDiv = createElement(
       "li",
       "item",
-      `<span><li>${taskBox[key].text} </li></span>`
+      `<span>${taskBox[key].text} </span>`
     );
     const itemDivButtons = createElement("div", "item-buttons", "");
     itemDivButtons.appendChild(toDoButton);
