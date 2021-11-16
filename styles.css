@@ -124,6 +124,10 @@ tr :nth-child(3) {
   margin: 2px;
 }
 
+.tasklist span {
+  display: list-item;
+}
+
 .item-buttons {
   flex-wrap: nowrap;
   height: min-content;
