@@ -1,42 +1,41 @@
-const inputElement = document.querySelector(".input-1");
-const taskListElement = document.querySelector(".tasklist");
-const errorMessage = document.querySelector(".alertMessage");
+const inputElement = document.querySelector(".input-1"),
+  taskListElement = document.querySelector(".tasklist"),
+  errorMessageElement = document.querySelector(".alertMessage"),
+  addNewTaskButton = document.querySelector(".button-primary"),
+  clearAllButton = document.querySelector(".button-secondary");
 
-const getInput = () => inputElement.value.trim();
+const getInputData = () => inputElement.value.trim();
 
-const getListFromLS = () =>
+const getDataFromLocalStorage = () =>
   (taskBox = JSON.parse(localStorage.getItem("taskBox")) || []);
 
-const setUpListToLS = (taskBox = []) =>
+const writeToLocalStorage = (taskBox = []) =>
   localStorage.setItem("taskBox", JSON.stringify(taskBox));
 
-function addNewTask() {
-  if (getInput().length === 0) {
-    errorMessage.textContent =
+const addNewTask = () => {
+  if (getInputData().length === 0) {
+    errorMessageElement.textContent =
       "Error: not enough length. Please, input some text.";
     return false;
   }
-  errorMessage.textContent = "";
-  const newList = {
-    text: "",
+  errorMessageElement.textContent = "";
+  const newTask = {
+    name: "",
     isComplete: false
   };
-  newList.text = getInput();
-  getListFromLS();
-  taskBox.push(newList);
-  setUpListToLS(taskBox);
+  newTask.name = getInputData();
+  getDataFromLocalStorage();
+  taskBox.push(newTask);
+  writeToLocalStorage(taskBox);
   inputElement.value = "";
   fillTheList();
-}
+};
 
 const clearAll = () => {
-  setUpListToLS();
+  writeToLocalStorage();
   taskListElement.innerHTML = "";
   getStatistics();
 };
-
-document.querySelector(".button-primary").addEventListener("click", addNewTask);
-document.querySelector(".button-secondary").addEventListener("click", clearAll);
 
 const createElement = (elementTag, className, innerHTML = "") => {
   const newElement = document.createElement(elementTag);
@@ -48,9 +47,9 @@ const createElement = (elementTag, className, innerHTML = "") => {
 const getCompletedItems = (array) =>
   array.filter(({ isComplete }) => isComplete).length;
 
-function fillTheList() {
+const fillTheList = () => {
   taskListElement.innerHTML = "";
-  getListFromLS();
+  getDataFromLocalStorage();
 
   for (const key in taskBox) {
     const toDoButton = createElement(
@@ -71,7 +70,7 @@ function fillTheList() {
     const itemDiv = createElement(
       "li",
       "item",
-      `<span>${taskBox[key].text} </span>`
+      `<span>${taskBox[key].name} </span>`
     );
     const itemDivButtons = createElement("div", "item-buttons", "");
     itemDivButtons.appendChild(toDoButton);
@@ -84,28 +83,25 @@ function fillTheList() {
       itemDivButtons.replaceChild(markReady, toDoButton);
     }
   }
-  setUpListToLS(taskBox);
+  writeToLocalStorage(taskBox);
   getStatistics();
-}
+};
 
-function getStatistics() {
-  document.querySelector(".stats__total").innerHTML = getListFromLS().length;
+const getStatistics = () => {
+  document.querySelector(".stats__total").innerHTML =
+    getDataFromLocalStorage().length;
   document.querySelector(".stats__completed").innerHTML =
     getCompletedItems(taskBox);
-}
+};
 
-fillTheList();
-
-taskListElement.addEventListener("click", taskManagement);
-
-function taskManagement(event) {
+const taskManagement = (event) => {
   if (event.path[1].className === "todo-button") {
     for (const key in taskBox) {
-      if (taskBox[key].text === event.path[3].children[0].innerText.trim()) {
+      if (taskBox[key].name === event.path[3].children[0].innerText.trim()) {
         taskBox[key].isComplete = true;
         taskBox.push(taskBox[key]);
         taskBox.splice([key], 1);
-        setUpListToLS(taskBox);
+        writeToLocalStorage(taskBox);
         fillTheList();
       }
     }
@@ -113,11 +109,17 @@ function taskManagement(event) {
 
   if (event.path[1].className === "delete-button") {
     for (const key in taskBox) {
-      if (taskBox[key].text === event.path[3].children[0].innerText.trim()) {
+      if (taskBox[key].name === event.path[3].children[0].innerText.trim()) {
         taskBox.splice([key], 1);
-        setUpListToLS(taskBox);
+        writeToLocalStorage(taskBox);
         fillTheList();
       }
     }
   }
-}
+};
+
+fillTheList();
+
+addNewTaskButton.addEventListener("click", addNewTask);
+clearAllButton.addEventListener("click", clearAll);
+taskListElement.addEventListener("click", taskManagement);

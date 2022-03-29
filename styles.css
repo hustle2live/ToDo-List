@@ -153,6 +153,11 @@ tr :nth-child(3) {
   margin: 0 5px;
 }
 
+.todo-button,
+.delete-button {
+  cursor: pointer;
+}
+
 .icon_ready {
   color: lightgreen;
   padding: 5px;
